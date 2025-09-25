@@ -18,7 +18,7 @@ export const experiences: Experience[] = [
       achievements: [
         "Engineered systems supporting 220M+ customers with sub-second latency requirements",
         "Built monitoring frameworks improving incident detection by 40%",
-        "Automated infrastructure for 50+ services across 3 AWS regions using TypeScript CDK",
+        "Automated infrastructure for 8+ services across 3 AWS regions using TypeScript CDK",
         "Developed telemetry pipelines preventing revenue-impacting tracking errors",
         "Led security hardening preventing dozens of infrastructure vulnerabilities",
         "Directed load testing for major live events (Copa Do Brazil, Thursday Night Football)"
