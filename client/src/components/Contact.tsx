@@ -1,34 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Mail, Linkedin, Github, MapPin, Download } from "lucide-react";
+import { Mail, Linkedin, Download } from "lucide-react";
+import { contactInfo } from "@/data/contactInfo";
 
 export default function Contact() {
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "ramiroepinedo@gmail.com",
-      action: "mailto:ramiroepinedo@gmail.com"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "linkedin.com/in/ramiropinedo",
-      action: "https://linkedin.com/in/ramiropinedo"
-    },
-    {
-      icon: Github,
-      label: "GitHub",
-      value: "github.com/rpinedo1",
-      action: "https://github.com/rpinedo1"
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Miramar, FL 33027",
-      action: null
-    }
-  ];
 
   const handleContactClick = (action: string | null, label: string) => {
     if (action) {

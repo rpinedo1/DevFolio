@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,11 +12,11 @@ export default function Projects() {
   const projects = [
     {
       title: "Prime Video Infrastructure Automation",
-      description: "Automated infrastructure provisioning for 50+ microservices across 3 AWS regions using TypeScript CDK and Python. Eliminated manual setup processes and reduced deployment errors by over 90%.",
+      description: "Automated infrastructure provisioning for 7+ microservices across 3 AWS regions using TypeScript CDK and Python. Eliminated manual setup processes and reduced deployment errors by over 90%.",
       image: cloudArchitectureImage,
-      technologies: ["TypeScript", "AWS CDK", "Python", "Lambda", "CloudFormation"],
+      technologies: ["TypeScript", "AWS CDK", "Python", "Lambda", "CloudFormation", "CI/CD"],
       achievements: [
-        "50+ services automated",
+        "7+ services automated",
         "3 AWS regions coverage", 
         "90%+ error reduction",
         "Zero manual deployments"
@@ -24,7 +25,7 @@ export default function Projects() {
     },
     {
       title: "Real-time Telemetry Pipeline",
-      description: "Developed comprehensive telemetry pipelines for real-time anomaly detection across 5 client platforms, preventing revenue-impacting tracking errors and supporting multi-million dollar partner payouts.",
+      description: "Developed comprehensive telemetry pipelines for real-time anomaly detection across 5 Prime Video client platforms, preventing revenue-impacting customer impressions and clicks tracking errors and supporting multi-million dollar partner payouts.",
       image: monitoringDashboardImage,
       technologies: ["Java", "Kotlin", "AWS", "CloudWatch", "SQS", "Real-time Processing"],
       achievements: [
@@ -36,18 +37,19 @@ export default function Projects() {
       type: "Professional Project"
     },
     {
-      title: "Graphics Driver Build Optimization",
-      description: "Engineered automated build tracking solution for Intel graphics drivers using OOP Python and Chrome tracing, reducing build times by up to 35 minutes for 1,000+ daily builds.",
+      title: "Push Notification Service: Cross-Team Service Architecture and Launch",
+      description:
+        "Architected and launched a unified push notification service for Prime Video, built with CDK and Lambda, introduced integration patterns with ACN, and led Operational Readiness to a zero‑incident production launch. Initially used for Device cache invalidation for Prime Video live events and now expanding to educational and compliance notifications.",
       image: cicdAutomationImage,
-      technologies: ["Python", "OOP", "Event Tracing", "Chrome Tracing", "CI/CD"],
+      technologies: ["TypeScript", "AWS CDK", "Kotlin", "Lambda", "API Gateway"],
       achievements: [
-        "35 min time savings",
-        "1,000+ daily builds",
-        "Automated tracking",
-        "Performance optimization"
+        "Complete service infrastructure deployed with CDK",
+        "Zero customer‑facing incidents at launch",
+        "99.9% availability during initial launch",
+        "Reusable CDK patterns adopted by other teams"
       ],
-      type: "Professional Project"
-    }
+      type: "Professional Project",
+    },
   ];
 
   const handleProjectClick = (projectTitle: string) => {
@@ -63,6 +65,32 @@ export default function Projects() {
     }
   };
 
+  // dynamic visible count based on viewport width
+  const [visibleCount, setVisibleCount] = useState(() => {
+    if (typeof window === 'undefined') return Math.max(3, projects.length);
+    const w = window.innerWidth;
+    const approxCardWidth = 600; // px per card (approx)
+    const calculated = Math.floor(w / approxCardWidth) || 1;
+    return Math.min(projects.length, Math.max(3, calculated));
+  });
+
+  const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    const onResize = () => {
+      const w = window.innerWidth;
+      const approxCardWidth = 600;
+      const calculated = Math.floor(w / approxCardWidth) || 1;
+      const newCount = Math.min(projects.length, Math.max(3, calculated));
+      setVisibleCount(newCount);
+    };
+
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [projects.length]);
+
+  const displayedProjects = showAll ? projects : projects.slice(0, visibleCount);
+
   return (
     <section className="py-24 px-6 bg-muted/30" data-testid="section-projects">
       <div className="max-w-6xl mx-auto">
@@ -75,8 +103,8 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayedProjects.map((project, index) => (
             <Card key={index} className="hover-elevate flex flex-col h-full" data-testid={`card-project-${index}`}>
               <div className="relative overflow-hidden rounded-t-lg">
                 <img
@@ -104,8 +132,8 @@ export default function Projects() {
                 </p>
                 
                 <div className="mb-4 flex-none">
-                  <h4 className="font-semibold text-sm mb-2">Key Achievements:</h4>
-                  <div className="grid grid-cols-2 gap-1 text-xs">
+                  <h4 className="font-bold text-sm mb-3">Key Achievements:</h4>
+                  <div className="grid grid-cols-2 gap-1 text-sm">
                     {project.achievements.map((achievement, achIndex) => (
                       <div key={achIndex} className="flex items-center gap-1" data-testid={`text-project-achievement-${index}-${achIndex}`}>
                         <span className="text-primary">•</span>
@@ -154,9 +182,16 @@ export default function Projects() {
             These projects represent my professional contributions at Amazon and Intel, 
             demonstrating real-world impact and technical leadership.
           </p>
-          <Button variant="outline" size="lg" data-testid="button-view-all-projects">
-            View All Projects
-          </Button>
+          {projects.length > visibleCount && (
+            <Button
+              variant="outline"
+              size="lg"
+              data-testid="button-view-all-projects"
+              onClick={() => setShowAll((s) => !s)}
+            >
+              {showAll ? 'Show Less' : 'View All Projects'}
+            </Button>
+          )}
         </div>
       </div>
     </section>

@@ -1,30 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Award, Code, Zap } from "lucide-react";
+import { highlights } from "@/data";
 
 export default function About() {
-  const highlights = [
-    {
-      icon: Users,
-      title: "220M+ Users Served",
-      description: "Built systems serving Prime Video's global user base"
-    },
-    {
-      icon: Award,
-      title: "40% Faster Detection",
-      description: "Improved incident detection through monitoring frameworks"
-    },
-    {
-      icon: Code,
-      title: "90% Error Reduction",
-      description: "Eliminated deployment errors through automation"
-    },
-    {
-      icon: Zap,
-      title: "35 Min Time Savings",
-      description: "Reduced build times for 1,000+ daily builds"
-    }
-  ];
 
   return (
     <section className="py-24 px-6" data-testid="section-about">
